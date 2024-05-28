@@ -10,6 +10,7 @@ const programs = [
       "https://img.betaseries.com/JwRqyGD3f9KvO_OlfIXHZUA3Ypw=/600x900/smart/https%3A%2F%2Fpictures.betaseries.com%2Ffonds%2Fposter%2F94857341d71c795c69b9e5b23c4bf3e7.jpg",
     country: "USA",
     year: 2016,
+    category: 1,
   },
   {
     id: 2,
@@ -20,15 +21,38 @@ const programs = [
       "https://img.betaseries.com/zDxfeFudy3HWjxa6J8QIED9iaVw=/600x900/smart/https%3A%2F%2Fpictures.betaseries.com%2Ffonds%2Fposter%2Fc47135385da176a87d0dd9177c5f6a41.jpg",
     country: "Allemagne",
     year: 2017,
+    category: 2,
   },
 ];
 
 // Declare the action
 
 const browse = (req, res) => {
-  res.json(programs);
+  if (req.query.q != null) {
+    const filteredPrograms = programs.filter((program) =>
+      program.synopsis.includes(req.query.q)
+    );
+    res.json(filteredPrograms);
+  } else {
+    res.json(programs);
+  }
+};
+
+const read = (req, res) => {
+  const { id } = req.params;
+  const parsedId = parseInt(id, 10);
+
+  const program = programs.find((p) => p.id === parsedId);
+
+  if (program != null) {
+    res.json(program);
+  } else {
+    res.sendStatus(404);
+  }
+
+  res.json(program);
 };
 
 // Export it to import it somewhere else
 
-module.exports = { browse };
+module.exports = { browse, read, programs };
