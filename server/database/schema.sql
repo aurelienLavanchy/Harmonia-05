@@ -22,7 +22,7 @@ CREATE TABLE program (
   synopsys TEXT NOT NULL,
   poster VARCHAR(255) NOT NULL,
   country VARCHAR(255) NOT NULL,
-  year INT UNSIGNED NOT NULL
+  year INT UNSIGNED NOT NULL,
+  category_id INT UNSIGNED,
+  FOREIGN KEY(category_id) REFERENCES category(id)
 );
-
-/* ALTER TABLE program ADD FOREIGN KEY(category_id) REFERENCES category(id); */
